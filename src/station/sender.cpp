@@ -9,6 +9,7 @@
 #include <netinet/if_ether.h>
 #include"defs.h"
 #include<stdlib.h>
+#include <stdio.h>
 using namespace std;
 
 sender::sender()
@@ -22,8 +23,29 @@ int sender::run()
     char errbuf[PCAP_ERRBUF_SIZE];
     struct pcap_pkthdr hdr; /* pcap.h */
     struct ether_header *eptr; /* net/ethernet.h */
-    
+         
+    struct bpf_program fp;         /* The compiled filter expression */    
+    char filter_exp[] = "port 23";
+
     pcap_t *descr = pcap_open_live(dev,BUFSIZ,0,1000,errbuf);
+    
+    if(descr==0)
+    {
+        log<<"Couldn't parse filter "<<filter_exp <<" "<<pcap_geterr(descr);
+        return(1);
+    }
+    /*
+    if (pcap_compile(descr, &fp, filter_exp, 0, PCAP_NETMASK_UNKNOWN) == -1) 
+    {
+        log<<"Couldn't parse filter "<<filter_exp <<" "<<pcap_geterr(descr);
+        return(2);
+    }
+    if (pcap_setfilter(descr, &fp) == -1) 
+    {
+        log<<"Couldn't install filter "<< filter_exp<<" "<<pcap_geterr(descr);
+        return(2);
+    }
+    */
     while(1)
     {
         const u_char *packet = pcap_next(descr,&hdr);

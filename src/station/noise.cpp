@@ -3,6 +3,9 @@
 #include <unistd.h>
 #include<list>
 #define TIME 5
+#include"defs.h"
+#include<stdlib.h>
+#include <stdio.h>
 using namespace std;
 
 Noise::Noise()
@@ -26,8 +29,31 @@ void Noise::init()
 
 int Noise::getNoiseFromSystem()
 {
-    //TODO
-    return 0;
+     char noise[6];
+     
+     string cmd = "cat /proc/net/wireless|grep ";
+     cmd.append(WLAN);
+     cmd.append(" |awk '{print $5}' ");
+     
+     FILE *output =popen(cmd.c_str(),"r");
+     if(output == NULL)
+     {
+       return 0;
+     }
+     
+    if(fgets(noise,6,output)==NULL)
+    {
+        pclose(output);
+        return 0;
+    }
+    for(int i=6;i>0; i--)
+    {
+        if(noise[i]=='.')
+        {
+            noise[i]='\0';
+        }
+    }
+    return atoi(noise);
 }
 
 int Noise::run()
