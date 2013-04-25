@@ -86,6 +86,25 @@ int sender::run()
 
  int sender::getSignal(std::string mac)
  {
-     //TODO
-     return 0;
+     string signal = "";
+     
+     string cmd = "iw dev ";
+     cmd.append(WLAN);
+     cmd.append(" station get ");
+     cmd.append(mac);
+     cmd.append("|grep signal:|awk '{print $2}'");
+     
+     FILE *output = popen(cmd.c_str(),"r");
+     if(output == NULL)
+     {
+       return 0;
+     }
+     
+     if(fgets(signal,4,output)==NULL)
+    {
+        pclose(output);
+        return 0;
+    }
+    return atoi(signal.c_str());
+     
  }
