@@ -3,7 +3,7 @@
 
 #include"socketC.h"
 #include"thread.h"
-class Noise
+class Noise :public Thread
 {
     public:
         static Noise* instance()
@@ -12,7 +12,7 @@ class Noise
         }
         
         int getNoise();
-        void init();
+        static void init();
          
         void setSocket(socketC *s)
         {
@@ -25,6 +25,7 @@ class Noise
         int _noise;
         socketC *soc;
         int run();
+        Noise();
 };
 
 #endif

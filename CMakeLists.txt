@@ -8,4 +8,5 @@ ADD_DEFINITIONS( -Wall -Wno-reorder -lpthread)
 
 # subdirs(src/node)
 subdirs(src/station)
+subdirs(src/node)
 subdirs(src/common)

@@ -88,8 +88,6 @@ class nodeMap
             _nmap=0;
         }
         
-        void updateNoise(int n);
-        
     private:
         pthread_mutex_t mutex;
         bool handsh;

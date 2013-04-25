@@ -35,7 +35,7 @@ bool node::needSend(int noise)
 {      
     int snr=_signal-noise;
     
-    if(ackSnr>0 && (abs(ackSnr - snr) < SNR_VARIATION) )
+    if(_ackSnr>0 && (abs(_ackSnr - snr) < SNR_VARIATION) )
     {
         return false;
     }

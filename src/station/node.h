@@ -12,7 +12,7 @@ class node
         node(std::string mac,std::string ip) :_mac(mac),_ip(ip)
         {
             _msgCount=1;
-            ackSnr=-1;
+            _ackSnr=-1;
         }
         
         node()
@@ -29,6 +29,11 @@ class node
         {
             return _ip;
         }
+        
+        void setAckSnr(int snr)
+        {
+            _ackSnr=snr;
+        }
 
         bool needSend(int noise);
         
@@ -38,13 +43,11 @@ class node
         static node* nodeFromMac(std::string mac);
         static node* nodeFromIp(std::string ip);
 
-
     private:
         std::string _mac;
         std::string _ip;
-	short int hello_messages;
         char _signal;
-        int ackSnr;
+        int _ackSnr;
         int _msgCount;
 };
 

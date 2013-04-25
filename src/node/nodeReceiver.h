@@ -20,7 +20,7 @@ class nodeReceiver :public Thread
             log.close();
         };
 
-        int setPower(char rssi);
+        int setPower(int signal , int noise);
 
         void setSocket(socketC *s)
         {
@@ -31,7 +31,7 @@ class nodeReceiver :public Thread
 
     protected:
 
-        int setAbsPower(tx_new);
+        int setAbsPower(int tx_new);
         std::ofstream log;
         socketC *soc;
         

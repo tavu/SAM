@@ -1,6 +1,7 @@
 #include"stationReceiver.h"
 #include"sender.h"
 #include"nodeMap.h"
+#include "noise.h"
 #include"socketC.h"
 // #include"timeout.h"
 #include <signal.h>
@@ -20,21 +21,22 @@ int main()
     (void) signal(SIGTERM,leave);
 
     nodeMap::init();
-
+    Noise::init();
     Soc =new socketC();
     Send =new sender();
-    Rec =new stationReceiver();
+//     Rec =new stationReceiver();
 //     Chk = new timeoutChecker(Rec);
 
     Soc->init();
 
     Send->setSocket(Soc);
-    Rec->setSocket(Soc);
+//     Rec->setSocket(Soc);
 
-    Rec->start();
+//     Rec->start();
 //     Chk->start();
     Send->start();
-    Rec->join(); 
+    Send->join();
+//     Rec->join(); 
 }
 
 void leave(int sig)

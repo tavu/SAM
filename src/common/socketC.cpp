@@ -28,12 +28,12 @@ int socketC::bindSocket()
 
 struct mechMes socketC::received()
 {
-    struct sendMes m;
+    struct sendSigMess m;
     while(1)
     {        
         std::cout<<"waiting message"<<std::endl;        
-        memset(&m,0, sizeof(struct sendMes) );
-        if(recvfrom(sockfd,&m,sizeof(struct sendMes),0,(struct sockaddr *)&peer,&len) > 0)
+        memset(&m,0, sizeof(m) );
+        if(recvfrom(sockfd,&m,sizeof(m),0,(struct sockaddr *)&peer,&len) > 0)
         {
             if(m.type==MECH )
             {
@@ -63,14 +63,20 @@ int socketC::sendHsh(string ip)
 
 
 
-int socketC::sendAck(string ip, char snr )
+int socketC::sendAck(string ip,int signal, int noise )
 {
-    char buff[3];
-    buff[0]=MECH;
-    buff[1]=ACK;
-    buff[2]=snr;
+    struct sendMess
+    {
+        char mech;
+        char type;
+        int snr;
+    }m;
+    
+    m.mech=MECH;
+    m.snr=signal-noise;
+    m.type=SIG_ACK;
 
-    return sendMessage(ip,buff,3);
+    return sendMessage(ip,&m,sizeof(m) );
 }
 
 int socketC::sendHshAck(string ip)
@@ -86,9 +92,10 @@ int socketC::sendHshAck(string ip)
 
 int socketC::sendSignalMessage(string ip,int signal, int noise)
 {
-    struct sendMes m;
-    m.type=MECH;
-    m.signal=SIGNAL_M;
+    struct sendSigMess m;
+    m.mech=MECH;
+    m.type=SIGNAL_M;
+    m.signal=signal;
     m.noise=noise;
 
     return sendMessage(ip,&m,sizeof(m) );

@@ -8,7 +8,7 @@
 #define WLAN "ah"
 
 //TODO read gain from a property file
-#define GAINE 10
+#define GAIN 10
 
 #define TX_MIN 5
 #define TX_MAX 20

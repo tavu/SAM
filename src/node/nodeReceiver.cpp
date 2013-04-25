@@ -7,7 +7,6 @@
 #include"nodeReceiver.h"
 #include"message.h"
 #include"defs.h"
-#include "nodeMap.h"
 
 #include <signal.h>
 #include <unistd.h>
@@ -29,7 +28,6 @@ int nodeReceiver::run()
     if(soc->bindSocket()!=0)
     {
         log<<"could not bind socket"<<endl;
-        log<<"ERR "<<k<<endl;
         return 0;
     }
 
@@ -46,7 +44,7 @@ int nodeReceiver::run()
         }
         else if(message.m.type==SIGNAL_M)
         {
-            log<<'\t'<<"signal "<<message.m.value<<endl;
+            log<<'\t'<<"signal "<<message.m.signal<<endl;
             log<<'\t'<<"noise "<<message.m.noise<<endl;
             setPower(message.m.signal,message.m.noise );
         }
@@ -60,10 +58,10 @@ int nodeReceiver::run()
 
 int nodeReceiver::setPower(int signal,int noise)
 {
-    int pathLoss=curr_tx*GAINE - signal;
+    int pathLoss=curr_tx*GAIN - signal;
 
     
-    int tx_new=(PERF_SNR-noise)/GAINE;        
+    int tx_new=(PERF_SNR+noise+pathLoss)/GAIN;
 
     return setAbsPower(tx_new);
 }
@@ -86,13 +84,13 @@ int nodeReceiver::setAbsPower(int tx_new)
         sprintf(foo,"%d",tx_new);
         cmd.append(foo);
         
-//         time_t t=time(NULL);
+        time_t t=time(NULL);
         if(system(cmd.c_str()) !=0)
         {
             cout<<"error on system command"<<endl;
             return -1;
         }
-        /*
+        
         txLog.open(TX_LOG,std::ios::out | std::ios::app);
         int txl=curr_tx;
         txLog<<t<<'\t'<<txl;
@@ -101,8 +99,8 @@ int nodeReceiver::setAbsPower(int tx_new)
         curr_tx=tx_new;
         txLog.close();
         
-        log<<'\t'<<cmd<<endl;
-        */
-    } 
+        log<<'\t'<<cmd<<endl;        
+    }
+
     return 0;
 }

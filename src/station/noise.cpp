@@ -5,6 +5,11 @@
 #define TIME 5
 using namespace std;
 
+Noise::Noise()
+{
+    _noise=getNoiseFromSystem();
+}
+
 int Noise::getNoise()
 {
     return _noise;
@@ -21,7 +26,8 @@ void Noise::init()
 
 int Noise::getNoiseFromSystem()
 {
-
+    //TODO
+    return 0;
 }
 
 int Noise::run()

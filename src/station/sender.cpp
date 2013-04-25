@@ -7,7 +7,7 @@
 #include <pcap.h> /* if this gives you an error try pcap/pcap.h */
 #include <arpa/inet.h>//ntohs
 #include <netinet/if_ether.h>
-
+#include"defs.h"
 
 using namespace std;
 
@@ -34,7 +34,7 @@ int sender::run()
         eptr = (struct ether_header *) packet;        
         if (ntohs (eptr->ether_type) != ETHERTYPE_IP || ntohs (eptr->ether_type) != ETHERTYPE_ARP  )
         {
-            log<<"type %x not IP", ntohs(eptr->ether_type);
+            log<<"type %x not IP"<< ntohs(eptr->ether_type);
             continue;
         }        
         
@@ -72,7 +72,6 @@ int sender::run()
         if(n->needSend(noise) )
         {
             nMap()->unlock();
-            
             soc->sendSignalMessage(n->ip(),signal,noise);
         }
         else

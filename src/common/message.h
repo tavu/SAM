@@ -4,25 +4,33 @@
 #define MECH            'M'
 #define HELLOW          'h'
 #define SIGNAL_M        'r'
-#define ACK             'A'
+#define SIG_ACK             'A'
 #define HNDSH_R         'H'
 #define HNDSH_A         'a'
 
 #define MESSAGE_BUFF 3
 
 
-struct sendMes
+struct sendSigMess
 {
+    char mech;
     char type;
     int signal;
     int noise;
 };
-
+/*
+struct sendMess
+{
+    char mech;
+    char type;
+    int value;
+};
+*/
 
 struct mechMes
-{
+{    
     std::string ip;    
-    struct sendMes m;
+    struct sendSigMess m;
 };
 
 
