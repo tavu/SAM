@@ -8,7 +8,7 @@
 #include <arpa/inet.h>//ntohs
 #include <netinet/if_ether.h>
 #include"defs.h"
-
+#include<stdlib.h>
 using namespace std;
 
 sender::sender()
@@ -85,7 +85,7 @@ int sender::run()
 
  int sender::getSignal(std::string mac)
  {
-     string signal = "";
+     char signal[5];
      
      string cmd = "iw dev ";
      cmd.append(WLAN);
@@ -99,11 +99,11 @@ int sender::run()
        return 0;
      }
      
-     if(fgets(signal,4,output)==NULL)
+    if(fgets(signal,5,output)==NULL)
     {
         pclose(output);
         return 0;
     }
-    return atoi(signal.c_str());
+    return atoi(signal);
      
  }
