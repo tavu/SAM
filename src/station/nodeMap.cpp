@@ -22,8 +22,11 @@ node* nodeMap::nodeFromIp(string ip)
 node* nodeMap::nodeFromMac(string mac)
 {
     map<string,node*>::iterator it=macMap.find(mac);
+    
     if(it==macMap.end() )
     {
+	string s=macMap.begin()->first;
+	cout<<"node " << s << " "<<s.size()<<endl;
         return 0;
     }
     return it->second;

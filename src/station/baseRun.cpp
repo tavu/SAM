@@ -25,16 +25,17 @@ int main()
     Soc =new socketC();
     Send =new sender();
     node *n=node::nodeFromIp(std::string("10.0.0.2"));
+    std::cout<<"START M " <<n->mac()<<std::endl;
     nMap()->addNode(n);
-//     Rec =new stationReceiver();
+     Rec =new stationReceiver();
 //     Chk = new timeoutChecker(Rec);
 
     Soc->init();
 
     Send->setSocket(Soc);
-//     Rec->setSocket(Soc);
+     Rec->setSocket(Soc);
 
-//     Rec->start();
+     Rec->start();
 //     Chk->start();
     Send->start();
     Send->join();

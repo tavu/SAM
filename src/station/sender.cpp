@@ -23,12 +23,11 @@ int sender::run()
     char errbuf[PCAP_ERRBUF_SIZE];
     struct pcap_pkthdr hdr; /* pcap.h */
     struct ether_header *eptr; /* net/ethernet.h */
-         
     struct bpf_program fp;         /* The compiled filter expression */    
     char filter_exp[] = "port 23";
 
     pcap_t *descr = pcap_open_live(dev,BUFSIZ,0,1000,errbuf);
-    
+
     if(descr==0)
     {
         log<<"Couldn't parse filter "<<filter_exp <<" "<<pcap_geterr(descr);
@@ -53,18 +52,17 @@ int sender::run()
         if(packet == NULL)
         {
            log<<"Didn't grab packet\n";
-        }        
-       
+	   continue;
+        }
         printf("Grabbed packet of length %d\n",hdr.len);
-        printf("Ethernet address length is %d\n",ETHER_HDR_LEN);
-        
+
         if(hdr.len<sizeof(struct ether_header) )
         {
             printf("Too short packet");
             continue;
         }
         eptr = (struct ether_header *) packet;
-        
+
         if (ntohs (eptr->ether_type) == ETHERTYPE_IP)
             {
                 printf("Ethernet type hex:%x dec:%d is an IP packet\n",
@@ -81,30 +79,41 @@ int sender::run()
                 printf("Ethernet type %x not IP", ntohs(eptr->ether_type));
                 continue;
             }      
-        
-        u_char *ptr;ptr = eptr->ether_dhost;        
-        int i=0;
-        string mac;
-        do
+
+        u_char *ptr;ptr = eptr->ether_dhost;
+
+	char macS[18];
+	char *c=macS;
+        for(int i=0;i<ETHER_ADDR_LEN;i++)
         {
-            char macS[3];
-            sprintf(macS,"%x",*ptr++);
-            mac.append(macS,3);
-            if(i != ETHER_ADDR_LEN)
+            sprintf(c,"%X",*ptr++);
+	    if(c[1]=='\0')
             {
-                mac.append(":");
+		c[2]='\0';
+ 		c[1]=macS[0];
+		c[0]='0';
+	    }
+
+            if(i != ETHER_ADDR_LEN -1)
+            {
+                c[2]=':';
+		c[3]='\0';
             }
-            
-        }while(--i>0);
-        
+	    c+=3;
+        }
+
+	string mac(macS);
+	std::cout<<"MAC:"<<mac<<std::endl;
+
         nMap()->lock();
         node *n=nMap()->nodeFromMac(mac);
         nMap()->unlock();
         if(n==0)
         {
-            log<<"\tUNKOWN MAC "<<mac<<endl;
+            cout<<"\tUNKOWN MAC "<<mac<<endl;
             continue;
         }
+	cout<<"\tmac found"<<endl;
         
         int signal=getSignal(mac);
         
