@@ -92,6 +92,7 @@ int socketC::sendHshAck(string ip)
 
 int socketC::sendSignalMessage(string ip,int signal, int noise)
 {
+    cout<<"sending signal message"<<endl;
     struct sendSigMess m;
     m.mech=MECH;
     m.type=SIGNAL_M;

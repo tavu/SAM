@@ -11,7 +11,10 @@ class socketC
 {
     public:
 
-        socketC(){}
+        socketC()
+        {
+            init();
+        }
         ~socketC()
         {
             closeFd();

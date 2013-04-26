@@ -13,10 +13,10 @@ int main()
     (void) signal(SIGTERM,leave);
 
     Soc =new socketC();
-
+    Rec=new nodeReceiver();
     Rec->setSocket(Soc);
     Rec->start();
-
+    Rec->join();
     return 0;
 }
 

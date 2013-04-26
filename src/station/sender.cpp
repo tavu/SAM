@@ -115,16 +115,20 @@ int sender::run()
         }
 	cout<<"\tmac found"<<endl;
 
-        int signal=getSignal(mac);
-	cout<<"\tSignal" <<signal<<endl;
+        int signal=getSignal(mac);	
 
         n->addSignal(signal);
         n->msgCountIncr();
         int noise=Noise::instance()->getNoise();
         nMap()->lock();
-        if(n->needSend(noise) )
+        bool b=n->needSend(noise);
+        nMap()->unlock();
+        
+        cout<<"\tSignal" <<signal<<" "<<noise<<" "<<b<<endl;
+        
+        if(b)
         {
-            nMap()->unlock();
+            
             soc->sendSignalMessage(n->ip(),signal,noise);
         }
         else

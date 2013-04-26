@@ -28,6 +28,7 @@ int nodeReceiver::run()
     if(soc->bindSocket()!=0)
     {
         log<<"could not bind socket"<<endl;
+        perror("could not bind socket");
         return 0;
     }
 
@@ -44,8 +45,9 @@ int nodeReceiver::run()
         }
         else if(message.m.type==SIGNAL_M)
         {
-            log<<'\t'<<"signal "<<message.m.signal<<endl;
-            log<<'\t'<<"noise "<<message.m.noise<<endl;
+            log<<'\t'<<"signal "<<message.m.signal;
+            log<<'\t'<<"noise "<<message.m.noise;
+            log<<'\t'<<"snr "<<message.m.signal-message.m.noise<<endl;
             setPower(message.m.signal,message.m.noise );
         }
         else if(message.m.type==HNDSH_A)//ack to handshake
