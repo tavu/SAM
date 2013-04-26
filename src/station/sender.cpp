@@ -89,9 +89,9 @@ int sender::run()
             sprintf(c,"%X",*ptr++);
 	    if(c[1]=='\0')
             {
-		c[2]='\0';
- 		c[1]=macS[0];
+ 		c[1]=c[0];
 		c[0]='0';
+		c[2]='\0';
 	    }
 
             if(i != ETHER_ADDR_LEN -1)
@@ -114,13 +114,13 @@ int sender::run()
             continue;
         }
 	cout<<"\tmac found"<<endl;
-        
+
         int signal=getSignal(mac);
-        
+	cout<<"\tSignal" <<signal<<endl;
+
         n->addSignal(signal);
         n->msgCountIncr();
         int noise=Noise::instance()->getNoise();
-        
         nMap()->lock();
         if(n->needSend(noise) )
         {
