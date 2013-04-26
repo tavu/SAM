@@ -53,7 +53,17 @@ int sender::run()
         {
            log<<"Didn't grab packet\n";
         }        
+       
+        printf("Grabbed packet of length %d\n",hdr.len);
+        printf("Ethernet address length is %d\n",ETHER_HDR_LEN);
+        
+        if(hdr.len<sizeof(struct ether_header) )
+        {
+            printf("Too short packet");
+            continue;
+        }
         eptr = (struct ether_header *) packet;
+        
         if (ntohs (eptr->ether_type) == ETHERTYPE_IP)
             {
                 printf("Ethernet type hex:%x dec:%d is an IP packet\n",
