@@ -54,12 +54,23 @@ int sender::run()
         {
            log<<"Didn't grab packet\n";
         }        
-        eptr = (struct ether_header *) packet;        
-        if (ntohs (eptr->ether_type) != ETHERTYPE_IP || ntohs (eptr->ether_type) != ETHERTYPE_ARP  )
-        {
-            log<<"type %x not IP"<< ntohs(eptr->ether_type);
-            continue;
-        }        
+        eptr = (struct ether_header *) packet;
+        if (ntohs (eptr->ether_type) == ETHERTYPE_IP)
+            {
+                printf("Ethernet type hex:%x dec:%d is an IP packet\n",
+                       ntohs(eptr->ether_type),
+                       ntohs(eptr->ether_type));
+            } else if (ntohs (eptr->ether_type) == ETHERTYPE_ARP)
+            {
+                printf("Ethernet type hex:%x dec:%d is an ARP packet\n",
+                       ntohs(eptr->ether_type),
+                       ntohs(eptr->ether_type));
+            } 
+            else 
+            {
+                printf("Ethernet type %x not IP", ntohs(eptr->ether_type));
+                continue;
+            }      
         
         u_char *ptr;ptr = eptr->ether_dhost;        
         int i=0;
