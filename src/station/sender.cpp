@@ -48,6 +48,7 @@ int sender::run()
     */
     while(1)
     {
+	log<<"start";
         const u_char *packet = pcap_next(descr,&hdr);
         if(packet == NULL)
         {
