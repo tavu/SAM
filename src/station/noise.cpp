@@ -27,15 +27,14 @@ void Noise::init()
     }
 }
 
-//TODO Fix the command
 //TODO If Noise is not supported by the driver, exit the mechanism
 int Noise::getNoiseFromSystem()
 {
-     char noise[6];
+     char noise[4];
      
-     string cmd = "cat /proc/net/wireless|grep ";
+     string cmd = "iw dev ";
      cmd.append(WLAN);
-     cmd.append(" |awk '{print $5}' ");
+     cmd.append(" survey dump |grep Noise: |awk '{print $2}'");
      
      FILE *output =popen(cmd.c_str(),"r");
      if(output == NULL)
@@ -43,18 +42,12 @@ int Noise::getNoiseFromSystem()
        return 0;
      }
      
-    if(fgets(noise,6,output)==NULL)
+    if(fgets(noise,4,output)==NULL)
     {
         pclose(output);
         return 0;
     }
-    for(int i=6;i>0; i--)
-    {
-        if(noise[i]=='.')
-        {
-            noise[i]='\0';
-        }
-    }
+    
     return atoi(noise);
 }
 
