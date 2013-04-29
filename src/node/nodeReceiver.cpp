@@ -27,8 +27,8 @@ int nodeReceiver::run()
 
     if(soc->bindSocket()!=0)
     {
-        log<<"could not bind socket"<<endl;
-        perror("could not bind socket");
+        log<<"Could not bind socket"<<endl;
+        perror("Could not bind socket");
         return 0;
     }
 
@@ -36,7 +36,7 @@ int nodeReceiver::run()
     {
         struct mechMes message=soc->received();
 
-        log<<"[RECEIVED]"<<message.ip<<endl;
+        log<<"[RECEIVED] "<<message.ip<<endl;
 
         if(message.m.type==HELLOW )
         {
@@ -45,9 +45,9 @@ int nodeReceiver::run()
         }
         else if(message.m.type==SIGNAL_M)
         {
-            log<<'\t'<<"signal "<<message.m.signal;
-            log<<'\t'<<"noise "<<message.m.noise;
-            log<<'\t'<<"snr "<<message.m.signal-message.m.noise<<endl;
+            log<<"Signal: "<<message.m.signal;
+            log<<'\t'<<"Noise: "<<message.m.noise;
+            log<<'\t'<<"SNR: "<<message.m.signal-message.m.noise<<endl;
             setPower(message.m.signal,message.m.noise );
         }
         else if(message.m.type==HNDSH_A)//ack to handshake
@@ -77,7 +77,7 @@ int nodeReceiver::setAbsPower(int tx_new)
     if(tx_new >TX_MAX)
         tx_new=TX_MAX;
     
-    if(tx_new!=curr_tx)
+    if(tx_new != curr_tx)
     {
         char foo[3];
         string cmd = "iwconfig ";
@@ -89,7 +89,7 @@ int nodeReceiver::setAbsPower(int tx_new)
         time_t t=time(NULL);
         if(system(cmd.c_str()) !=0)
         {
-            cout<<"error on system command"<<endl;
+            cout<<"Error on system command"<<endl;
             return -1;
         }
         

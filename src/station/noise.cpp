@@ -4,7 +4,7 @@
 #include<list>
 #define TIME 5
 #include"defs.h"
-#include<stdlib.h>
+#include <stdlib.h>
 #include <stdio.h>
 using namespace std;
 
@@ -27,6 +27,8 @@ void Noise::init()
     }
 }
 
+//TODO Fix the command
+//TODO If Noise is not supported by the driver, exit the mechanism
 int Noise::getNoiseFromSystem()
 {
      char noise[6];

@@ -110,10 +110,13 @@ int sender::run()
         nMap()->unlock();
         if(n==0)
         {
+	    //TODO An den iparxei i MAC, den prepei na tin valoume?
+	    //TODO Den mporoume na tsekaroume edw an i mac einai tou base station, gia na kanoume avoid ta
+	    //paketa tou base station?
             cout<<"\tUNKOWN MAC "<<mac<<endl;
             continue;
         }
-	cout<<"\tmac found"<<endl;
+	cout<<"\tMAC FOUND!"<<endl;
 
         int signal=getSignal(mac);	
 
@@ -124,7 +127,7 @@ int sender::run()
         bool b=n->needSend(noise);
         nMap()->unlock();
         
-        cout<<"\tSignal" <<signal<<" "<<noise<<" "<<b<<endl;
+        cout<<"\tSignal: " <<signal<<"\tNoise: "<<noise<<" "<<b<<endl;
         
         if(b)
         {

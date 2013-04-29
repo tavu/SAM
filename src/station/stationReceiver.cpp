@@ -24,16 +24,16 @@ int stationReceiver::run()
     {
         struct mechMes message=soc->received();
 
-        log<<"[RECEIVED]"<<message.ip<<std::endl;
+        log<<"[RECEIVED] "<<message.ip<<std::endl;
 
         if(message.m.type==HELLOW )
         {
-            //TODO
+            //TODO Tha ginei to hello message?
             continue;
         }
         else if(message.m.type==HNDSH_A)//ack to handshake
         {
-            //TODO
+            //TODO Grapse ti prepei na ginei edw....
             continue;
         }
         else if(message.m.type==SIG_ACK)
