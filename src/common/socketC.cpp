@@ -53,40 +53,46 @@ struct mechMes socketC::received()
 
 int socketC::sendHsh(string ip)
 {
-    char buff[3];
-    buff[0]=MECH;
-    buff[1]=HNDSH_R;
-    buff[2]='\0';
+//     char buff[3];
+//     buff[0]=MECH;
+//     buff[1]=HNDSH_R;
+//     buff[2]='\0';
+    sendSigMess m;
+    m.mech=MECH;
+    m.noise=0;
+    m.noise=0;
+    m.type=HNDSH_R;
 
-    return sendMessage(ip,buff,2);
+    return sendMessage(ip,&m,sizeof(m) );
 }
 
 
 
 int socketC::sendAck(string ip,int signal, int noise )
 {
-    struct sendMess
-    {
-        char mech;
-        char type;
-        int snr;
-    }m;
+    sendSigMess m;
     
     m.mech=MECH;
-    m.snr=signal-noise;
+    m.signal=signal-noise;
     m.type=SIG_ACK;
+    m.noise=noise;
 
     return sendMessage(ip,&m,sizeof(m) );
 }
 
 int socketC::sendHshAck(string ip)
 {
-    char buff[3];
-    buff[0]=MECH;
-    buff[1]=HNDSH_A;
-    buff[2]=0;
+//     char buff[3];
+//     buff[0]=MECH;
+//     buff[1]=HNDSH_A;
+//     buff[2]=0;
+    sendSigMess m;
+    m.mech=MECH;
+    m.signal=0;
+    m.type=HNDSH_A;
+    m.noise=0;
 
-    return sendMessage(ip,buff,3);
+    return sendMessage(ip,&m,sizeof(m) );
 }
 
 
@@ -104,11 +110,17 @@ int socketC::sendSignalMessage(string ip,int signal, int noise)
 
 int socketC::sendHellow(string ip)
 {
-    char buff[2];
-    buff[0]=MECH;
-    buff[1]=HELLOW;
+//     char buff[2];
+//     buff[0]=MECH;
+//     buff[1]=HELLOW;
 
-    return sendMessage(ip,buff,2);
+    struct sendSigMess m;
+    m.mech=MECH;
+    m.type=HELLOW;
+    m.signal=0;
+    m.noise=0;
+
+    return sendMessage(ip,&m,sizeof(m));
 }
 
 int socketC::sendMessage(string ip,void *m, int size)

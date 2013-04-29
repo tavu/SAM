@@ -14,7 +14,7 @@ Noise::Noise()
     if(_noise == 0)
     {
       perror("The driver does not support noise. Exiting...");
-      exit(-1);
+//       exit(-1);
     }
 }
 
