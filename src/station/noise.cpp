@@ -11,6 +11,11 @@ using namespace std;
 Noise::Noise()
 {
     _noise=getNoiseFromSystem();
+    if(_noise == 0)
+    {
+      perror("The driver does not support noise. Exiting...");
+      exit(-1);
+    }
 }
 
 int Noise::getNoise()
@@ -27,7 +32,6 @@ void Noise::init()
     }
 }
 
-//TODO If Noise is not supported by the driver, exit the mechanism
 int Noise::getNoiseFromSystem()
 {
      char noise[4];
@@ -58,6 +62,12 @@ int Noise::run()
     {
         nMap()->lock();
         _noise=getNoiseFromSystem();
+	
+	if(_noise == 0)
+	{
+	  perror("The driver does not support noise. Exiting...");
+	  exit(-1);
+	}
         
         for(nodeMap::nodeIter i=nMap()->ipBegin();i!=nMap()->ipEnd();i++)
         {
