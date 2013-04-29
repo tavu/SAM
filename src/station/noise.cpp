@@ -38,7 +38,7 @@ int Noise::getNoiseFromSystem()
      
      string cmd = "iw dev ";
      cmd.append(WLAN);
-     cmd.append(" survey dump |grep Noise: |awk '{print $2}'");
+     cmd.append(" survey dump |grep noise: |awk '{print $2}'");
      
      FILE *output =popen(cmd.c_str(),"r");
      if(output == NULL)
