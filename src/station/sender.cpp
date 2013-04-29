@@ -145,7 +145,7 @@ int sender::run()
 
  int sender::getSignal(std::string mac)
  {
-     char signal[5];
+     char signal[4];
      
      string cmd = "iw dev ";
      cmd.append(WLAN);
@@ -159,7 +159,7 @@ int sender::run()
        return 0;
      }
      
-    if(fgets(signal,5,output)==NULL)
+    if(fgets(signal,4,output)==NULL)
     {
         pclose(output);
         return 0;
