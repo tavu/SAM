@@ -47,7 +47,7 @@ int sender::run()
     */
     while(1)
     {
-	log<<"start";
+	log<<"Start"<<endl;
         const u_char *packet = pcap_next(descr,&hdr);
         if(packet == NULL)
         {
@@ -103,7 +103,7 @@ int sender::run()
         }
 
 	string mac(macS);
-	std::cout<<"MAC:"<<mac<<std::endl;
+	std::cout<<"MAC: "<<mac<<std::endl;
 
         nMap()->lock();
         node *n=nMap()->nodeFromMac(mac);
