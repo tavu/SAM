@@ -35,7 +35,7 @@ struct mechMes socketC::received()
         memset(&m,0, sizeof(m) );
         if(recvfrom(sockfd,&m,sizeof(m),0,(struct sockaddr *)&peer,&len) > 0)
         {
-            if(m.type==MECH )
+            if(m.mech==MECH )
             {
                 break ;
             }
