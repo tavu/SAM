@@ -164,6 +164,7 @@ int sender::run()
         pclose(output);
         return 0;
     }
+    pclose(output);
     return atoi(signal);
      
  }

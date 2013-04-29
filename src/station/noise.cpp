@@ -51,7 +51,7 @@ int Noise::getNoiseFromSystem()
         pclose(output);
         return 0;
     }
-    
+    pclose(output);
     return atoi(noise);
 }
 
