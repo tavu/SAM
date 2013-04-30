@@ -10,3 +10,5 @@ ADD_DEFINITIONS( -Wall -Wno-reorder -lpthread -ggdb)
 subdirs(src/station)
 subdirs(src/node)
 subdirs(src/common)
+
+add_subdirectory(utils/Bitrate)
