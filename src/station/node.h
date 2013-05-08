@@ -19,6 +19,11 @@ class node
         {}
 
         void addSignal(int);
+        
+        int signal()
+        {
+            return _signal;
+        }
 
         std::string mac()
         {

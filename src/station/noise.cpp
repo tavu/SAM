@@ -5,6 +5,7 @@
 #define TIME 5
 #include"defs.h"
 #include <stdlib.h>
+
 #include <stdio.h>
 using namespace std;
 
@@ -57,33 +58,32 @@ int Noise::getNoiseFromSystem()
 
 int Noise::run()
 {
-    std::list<string> nodeList;
+    std::list<node> nodeList;
     while(1)
     {
-        nMap()->lock();
-        _noise=getNoiseFromSystem();
-	
+        _noise=getNoiseFromSystem();        	
 	if(_noise == 0)
 	{
 	  perror("The driver does not support noise. Exiting...");
 	  exit(-1);
 	}
         
+        nMap()->lock();
         for(nodeMap::nodeIter i=nMap()->ipBegin();i!=nMap()->ipEnd();i++)
         {
             node *n=nMap()->nodeFromIt(i);
             if(n->needSend(_noise) )
             {
-                nodeList.push_back(n->ip() );
+                nodeList.push_back(*n);
             }
         }
         nMap()->unlock();
-/*     
-        for (list<string>::iterator it=nodeList.begin(); it != nodeList.end(); ++it)
+     
+        for (list<node>::iterator it=nodeList.begin(); it != nodeList.end(); ++it)
         {
-            soc->sendSignalMessage(*it,_noise);
+            soc->sendSignalMessage(it->ip(),it->signal(),_noise);
         }
-*/
+
         sleep(TIME);
     }
     return 0;
