@@ -23,7 +23,7 @@ int sender::run()
     char errbuf[PCAP_ERRBUF_SIZE];
     struct pcap_pkthdr hdr; /* pcap.h */
     struct ether_header *eptr; /* net/ethernet.h */
-    struct bpf_program fp;         /* The compiled filter expression */    
+//     struct bpf_program fp;         /* The compiled filter expression */    
     char filter_exp[] = "port 23";
 
     pcap_t *descr = pcap_open_live(dev,BUFSIZ,0,1000,errbuf);
@@ -33,18 +33,12 @@ int sender::run()
         log<<"Couldn't parse filter "<<filter_exp <<" "<<pcap_geterr(descr);
         return(1);
     }
-    /*
-    if (pcap_compile(descr, &fp, filter_exp, 0, PCAP_NETMASK_UNKNOWN) == -1) 
+    
+    if(pcap_setdirection(descr, PCAP_D_IN)!=0)
     {
-        log<<"Couldn't parse filter "<<filter_exp <<" "<<pcap_geterr(descr);
-        return(2);
+         log<<"Couldn't set direction "<<pcap_geterr(descr);
     }
-    if (pcap_setfilter(descr, &fp) == -1) 
-    {
-        log<<"Couldn't install filter "<< filter_exp<<" "<<pcap_geterr(descr);
-        return(2);
-    }
-    */
+
     while(1)
     {
 	log<<"Start"<<endl;
@@ -118,8 +112,8 @@ int sender::run()
         }
 	cout<<"\tMAC FOUND!"<<endl;
 
-        int signal=getSignal(mac);	
-
+        int signal=getSignal(mac);
+        
         n->addSignal(signal);
         n->msgCountIncr();
         int noise=Noise::instance()->getNoise();
@@ -164,6 +158,7 @@ int sender::run()
         pclose(output);
         return 0;
     }
+    pclose(output);
     return atoi(signal);
      
  }
