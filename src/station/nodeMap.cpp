@@ -27,8 +27,6 @@ node* nodeMap::nodeFromMac(string mac)
     
     if(it==macMap.end() )
     {
-	string s=macMap.begin()->first;
-	cout<<"node " << s << " "<<s.size()<<endl;
         return 0;
     }
     return it->second;

@@ -37,7 +37,7 @@ int sender::run()
         return(1);
     }
 
-    if(pcap_setdirection(descr, PCAP_D_IN)!=0)
+    if(pcap_setdirection(descr, PCAP_D_OUT)!=0)
     {
         log<<"Couldn't set direction "<<pcap_geterr(descr);
     }
@@ -105,12 +105,14 @@ int sender::run()
 
         int signal=getSignal(mac);
 
-        if(signal==0)
+        if( signal==0 )
         {
             continue;
         }
+        
         nMap()->lock();
         node *n=nMap()->nodeFromMac(mac);
+        
         if(n==0)
         {
             n=node::nodeFromMac(mac);
