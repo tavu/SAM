@@ -37,7 +37,7 @@ int sender::run()
         return(1);
     }
 
-    if(pcap_setdirection(descr, PCAP_D_OUT)!=0)
+    if(pcap_setdirection(descr, PCAP_D_IN)!=0)
     {
         log<<"Couldn't set direction "<<pcap_geterr(descr);
     }
@@ -78,7 +78,7 @@ int sender::run()
         }
 
         u_char *ptr;
-        ptr = eptr->ether_dhost;
+        ptr = eptr->ether_shost;
 
         char macS[18];
         char *c=macS;
