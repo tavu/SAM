@@ -31,11 +31,6 @@ int stationReceiver::run()
             //TODO Tha ginei to hello message?
             continue;
         }
-        else if(message.m.type==HNDSH_A)//ack to handshake
-        {
-            //TODO Grapse ti prepei na ginei edw....
-            continue;
-        }
         else if(message.m.type==SIG_ACK)
         {
             nMap()->lock();

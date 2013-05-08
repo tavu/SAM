@@ -27,8 +27,6 @@ class socketC
         int sendSignalMessage(std::string ip,int signal,int noise);
         int sendHellow(std::string ip);
         int sendAck(std::string ip,int signal,int noise);
-        int sendHsh(std::string ip);
-        int sendHshAck(std::string ip);
 
         void closeFd()
         {

@@ -50,10 +50,6 @@ int nodeReceiver::run()
             log<<'\t'<<"SNR: "<<message.m.signal-message.m.noise<<endl;
             setPower(message.m.signal,message.m.noise );
         }
-        else if(message.m.type==HNDSH_A)//ack to handshake
-        {
-            //TODO
-        }
     }
     return 0;
 }

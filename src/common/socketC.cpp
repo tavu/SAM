@@ -51,23 +51,6 @@ struct mechMes socketC::received()
     return message;
 }
 
-int socketC::sendHsh(string ip)
-{
-//     char buff[3];
-//     buff[0]=MECH;
-//     buff[1]=HNDSH_R;
-//     buff[2]='\0';
-    sendSigMess m;
-    m.mech=MECH;
-    m.noise=0;
-    m.noise=0;
-    m.type=HNDSH_R;
-
-    return sendMessage(ip,&m,sizeof(m) );
-}
-
-
-
 int socketC::sendAck(string ip,int signal, int noise )
 {
     sendSigMess m;
@@ -79,22 +62,6 @@ int socketC::sendAck(string ip,int signal, int noise )
 
     return sendMessage(ip,&m,sizeof(m) );
 }
-
-int socketC::sendHshAck(string ip)
-{
-//     char buff[3];
-//     buff[0]=MECH;
-//     buff[1]=HNDSH_A;
-//     buff[2]=0;
-    sendSigMess m;
-    m.mech=MECH;
-    m.signal=0;
-    m.type=HNDSH_A;
-    m.noise=0;
-
-    return sendMessage(ip,&m,sizeof(m) );
-}
-
 
 int socketC::sendSignalMessage(string ip,int signal, int noise)
 {

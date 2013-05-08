@@ -24,9 +24,6 @@ int main()
     Noise::init();
     Soc =new socketC();
     Send =new sender();
-    node *n=node::nodeFromIp(std::string("10.0.0.2"));
-    std::cout<<"START M " <<n->mac()<<std::endl;
-    nMap()->addNode(n);
      Rec =new stationReceiver();
 //     Chk = new timeoutChecker(Rec);
 

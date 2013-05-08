@@ -4,9 +4,7 @@
 #define MECH            'M'
 #define HELLOW          'h'
 #define SIGNAL_M        'r'
-#define SIG_ACK             'A'
-#define HNDSH_R         'H'
-#define HNDSH_A         'a'
+#define SIG_ACK         'A'
 
 #define MESSAGE_BUFF 3
 
