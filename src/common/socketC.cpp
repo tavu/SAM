@@ -12,7 +12,7 @@ using namespace std;
 using namespace std;
 void socketC::init()
 {
-    if (sockfd = socket(AF_INET, ,SOCK_DGRAM,IPPROTO_UDP) <0) 
+    if (sockfd = socket(AF_INET ,SOCK_DGRAM,IPPROTO_UDP) <0) 
     {
         cout<<"Can't create socket"<<endl;
         exit(-1);
@@ -23,7 +23,7 @@ void socketC::init()
 int socketC::bindSocket()
 {
     memset(&bindSa, 0, sizeof bindSa);
-    bindSa.sin_family = AF_INET, ;
+    bindSa.sin_family = AF_INET;
     bindSa.sin_port =htons(SPORT);
     bindSa.sin_addr.s_addr = INADDR_ANY;
     socklen_t len = sizeof(peer);
