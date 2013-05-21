@@ -12,7 +12,8 @@ using namespace std;
 using namespace std;
 void socketC::init()
 {
-    if (sockfd = socket(AF_INET ,SOCK_DGRAM,IPPROTO_UDP) <0) 
+    sockfd = socket(AF_INET ,SOCK_DGRAM,IPPROTO_UDP);
+    if (sockfd<0) 
     {
         cout<<"Can't create socket"<<endl;
         exit(-1);
