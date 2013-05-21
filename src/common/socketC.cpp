@@ -76,7 +76,7 @@ int socketC::sendAck(string ip,int signal, int noise )
 
 int socketC::sendSignalMessage(string ip,int signal, int noise)
 {
-    cout<<"sending signal message"<<endl;
+    cout<<"sending signal message "<<ip<<endl;
     struct sendSigMess m;
     m.mech=MECH;
     m.type=SIGNAL_M;
@@ -105,7 +105,7 @@ int socketC::sendMessage(string ip,void *m, int size)
 {
     struct sockaddr_in sa;
     memset(&sa, 0, sizeof sa);
-    sa.sin_family = PF_INET;
+    sa.sin_family = AF_INET;
     sa.sin_port = htons(SPORT);
     sa.sin_addr.s_addr = inet_addr(ip.c_str() );
 
