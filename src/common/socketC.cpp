@@ -12,16 +12,21 @@ using namespace std;
 using namespace std;
 void socketC::init()
 {
-    sockfd = socket(PF_INET,SOCK_DGRAM,IPPROTO_UDP);
+    if (sockfd = socket(AF_INET, ,SOCK_DGRAM,IPPROTO_UDP) <0) 
+    {
+        cout<<"Can't create socket"<<endl;
+        exit(-1);
+    }
+    
 }
 
 int socketC::bindSocket()
 {
     memset(&bindSa, 0, sizeof bindSa);
-    bindSa.sin_family = PF_INET;
+    bindSa.sin_family = AF_INET, ;
     bindSa.sin_port =htons(SPORT);
     bindSa.sin_addr.s_addr = INADDR_ANY;
-//     socklen_t len = sizeof(peer);
+    socklen_t len = sizeof(peer);
 
     return bind(sockfd,(struct sockaddr *)&bindSa,sizeof(bindSa) );
 }
@@ -35,10 +40,15 @@ struct mechMes socketC::received()
         memset(&m,0, sizeof(m) );
         if(recvfrom(sockfd,&m,sizeof(m),0,(struct sockaddr *)&peer,&len) > 0)
         {
+            std::cout<<"got message"<<std::endl;        
             if(m.mech==MECH )
             {
                 break ;
             }
+        }
+        else
+        {
+            std::cout<<"receive error"<<std::endl;   
         }
     }
 
