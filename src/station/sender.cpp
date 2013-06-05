@@ -135,7 +135,7 @@ int sender::run()
         bool b=n->needSend(noise);
         nMap()->unlock();
 
-        cout<<"\tSignal: " <<signal<<"\tNoise: "<<noise<<" "<<b<<endl;
+        //cout<<"\tSignal: " <<signal<<"\tNoise: "<<noise<<" "<<b<<endl;
 
         if(b)
         {

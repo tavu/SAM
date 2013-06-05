@@ -9,6 +9,7 @@ using namespace std;
 #include"defs.h"
 #include"message.h"
 
+#include<stdio.h>
 using namespace std;
 void socketC::init()
 {
@@ -27,7 +28,7 @@ int socketC::bindSocket()
     bindSa.sin_family = AF_INET;
     bindSa.sin_port =htons(SPORT);
     bindSa.sin_addr.s_addr = INADDR_ANY;
-    socklen_t len = sizeof(peer);
+    len = sizeof(peer);
 
     return bind(sockfd,(struct sockaddr *)&bindSa,sizeof(bindSa) );
 }
@@ -49,7 +50,7 @@ struct mechMes socketC::received()
         }
         else
         {
-            std::cout<<"receive error"<<std::endl;   
+            perror("receive error");   
         }
     }
 
@@ -57,7 +58,7 @@ struct mechMes socketC::received()
     message.m=m;
     message.ip=std::string(inet_ntoa(peer.sin_addr) );
 
-    cout<<"message received "<<message.m.type<<endl;
+    cout<<"message received "<<message.m.type<<endl<<" IP "<<message.ip;
 
     return message;
 }
