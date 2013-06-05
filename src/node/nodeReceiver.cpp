@@ -49,6 +49,7 @@ int nodeReceiver::run()
             log<<'\t'<<"Noise: "<<message.m.noise;
             log<<'\t'<<"SNR: "<<message.m.signal-message.m.noise<<endl;
             setPower(message.m.signal,message.m.noise );
+            soc->sendAck(message.ip,message.m.signal,message.m.noise);
         }
     }
     return 0;
