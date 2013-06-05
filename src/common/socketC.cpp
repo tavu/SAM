@@ -67,7 +67,7 @@ int socketC::sendAck(string ip,int signal, int noise )
     sendSigMess m;
     
     m.mech=MECH;
-    m.signal=signal-noise;
+    m.signal=signal;
     m.type=SIG_ACK;
     m.noise=noise;
 
