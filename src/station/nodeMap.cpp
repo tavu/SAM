@@ -5,15 +5,19 @@ using namespace std;
 
 node* nodeMap::addNode(node* n)
 {
-    ipMap[n->ip()]=n;
-    macMap[n->mac()]=n;
+    Key macK(n->mac());
+    Key ipK(n->ip());
+    
+    ipMap[macK]=n;
+    macMap[ipK]=n;
 
     return n;
 }
 
 node* nodeMap::nodeFromIp(string ip)
 {
-    map<string,node*>::iterator it=ipMap.find(ip);
+    Key k(ip);
+    nodeIter it=ipMap.find(k);
     if(it==ipMap.end() )
     {
         return 0;
@@ -23,7 +27,8 @@ node* nodeMap::nodeFromIp(string ip)
 
 node* nodeMap::nodeFromMac(string mac)
 {
-    map<string,node*>::iterator it=macMap.find(mac);
+    Key k(mac);
+    nodeIter it=macMap.find(k);
     
     if(it==macMap.end() )
     {

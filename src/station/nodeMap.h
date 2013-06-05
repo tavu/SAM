@@ -5,17 +5,39 @@
 #include<map>
 #include"node.h"
 #include<pthread.h>
-
+#include <string.h>
 
 
 class nodeMap
 {
+    private:
+        class Key 
+        {
+            public:    
+                Key(std::string s)
+                {
+                    this->s=s;
+                }                
+                
+                bool operator<(const Key& other) const
+                {
+                    int diff = strcmp(s.c_str(), other.s.c_str());
+                    return diff<0;
+                }
+                
+                std::string str()
+                {
+                    return s;
+                }
+            private:
+                std::string s;
+        };
+        
     public:
         friend nodeMap* nMap();
 
         nodeMap()
         {
-            handsh=false;
             pthread_mutex_init(&mutex, NULL);
         }
 
@@ -23,28 +45,17 @@ class nodeMap
         {
             pthread_mutex_destroy(&mutex);
         }
-
+        
+        typedef std::map<Key,node*>::iterator nodeIter;
 
         node* addNode(node* n);
         node* nodeFromIp(std::string ip);
         node* nodeFromMac(std::string mac);
 
-        bool  hasHandSh()
-        {
-            return handsh;
-        }
-
-        void setHandSh(bool b)
-        {
-            handsh=b;
-        }
-
         int size()
         {
             return ipMap.size();
-        }
-
-        typedef std::map<std::string,node*>::iterator nodeIter;
+        }        
 
         nodeIter ipBegin()
         {
@@ -90,11 +101,10 @@ class nodeMap
         
     private:
         pthread_mutex_t mutex;
-        bool handsh;
-        std::map<std::string,node*> ipMap;
-        std::map<std::string,node*> macMap;
+        std::map<nodeMap::Key,node*> ipMap;
+        std::map<nodeMap::Key,node*> macMap;
 
-        static nodeMap* _nmap;
+        static nodeMap* _nmap;                
 };
 
 nodeMap* nMap();
