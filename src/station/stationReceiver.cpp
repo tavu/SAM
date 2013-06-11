@@ -35,7 +35,6 @@ int stationReceiver::run()
         {
             nMap()->lock();
             node *n=nMap()->nodeFromIp(message.ip);
-            log<<"[NODE]\t"<<n->mac()<<"\t"<<n->ip()<<std::endl;
             if(n==0)
             {
                 nMap()->unlock();
