@@ -13,6 +13,7 @@ class node
         {
             _msgCount=1;
             _ackSnr=-1;
+            std::cout<<"IP "<<ip<<" "<<ip.size()<<std::endl;
         }
         
         node()
