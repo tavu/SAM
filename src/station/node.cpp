@@ -116,7 +116,9 @@ node* node::nodeFromMac(string mac)
 
     pclose(fp);
 
-    string ip=string(ip_add);
+    char ips[18];
+    sprintf(ips,"%s",ip_add);
+    string ip=string(ips);
 
     return new node(mac,ip);
 

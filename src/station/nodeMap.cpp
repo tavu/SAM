@@ -5,11 +5,12 @@ using namespace std;
 
 node* nodeMap::addNode(node* n)
 {
+	cout<<"ADD N:"<<n->mac()<<" "<<n->ip();
     Key macK(n->mac());
     Key ipK(n->ip());
     
-    ipMap[macK]=n;
-    macMap[ipK]=n;
+    ipMap[ipK]=n;
+    macMap[macK]=n;
 
     return n;
 }
@@ -20,7 +21,15 @@ node* nodeMap::nodeFromIp(string ip)
     nodeIter it=ipMap.find(k);
     if(it==ipMap.end() )
     {
-        return 0;
+	cout<<"N "<<ip<<" "<<ip.size()<<endl;
+	string str=ipMap.begin()->first.str();
+        
+	for(int i=0;i<str.size();i++)
+	{
+		cout<<"N2 "<<(int)str.c_str()[i]<<endl;
+	}
+
+	return 0;
     }
     return it->second;
 }
@@ -34,6 +43,7 @@ node* nodeMap::nodeFromMac(string mac)
     {
         return 0;
     }
+	cout<<"fount"<<endl;
     return it->second;
 }
 

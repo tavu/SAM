@@ -55,21 +55,21 @@ int sender::run()
 
         if(hdr.len<sizeof(struct ether_header) )
         {
-            printf("Too short packet");
+  //          printf("Too short packet");
             continue;
         }
         eptr = (struct ether_header *) packet;
 
         if (ntohs (eptr->ether_type) == ETHERTYPE_IP)
         {
-            printf("Ethernet type hex:%x dec:%d is an IP packet\n",
-                   ntohs(eptr->ether_type),
-                   ntohs(eptr->ether_type));
+   //         printf("Ethernet type hex:%x dec:%d is an IP packet\n",
+ //                  ntohs(eptr->ether_type),
+     //              ntohs(eptr->ether_type));
         } else if (ntohs (eptr->ether_type) == ETHERTYPE_ARP)
         {
-            printf("Ethernet type hex:%x dec:%d is an ARP packet\n",
-                   ntohs(eptr->ether_type),
-                   ntohs(eptr->ether_type));
+       //     printf("Ethernet type hex:%x dec:%d is an ARP packet\n",
+         //          ntohs(eptr->ether_type),
+           //        ntohs(eptr->ether_type));
         }
         else
         {

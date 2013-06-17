@@ -24,8 +24,13 @@ class nodeMap
                     int diff = strcmp(s.c_str(), other.s.c_str());
                     return diff<0;
                 }
+		
+		bool operator==(const Key& other) const
+		{
+			return strcmp(s.c_str(),other.s.c_str() )==0;
+		}
                 
-                std::string str()
+                std::string str() const
                 {
                     return s;
                 }
