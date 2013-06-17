@@ -5,6 +5,7 @@
 #include"defs.h"
 #include"noise.h"
 #include <stdio.h>
+#include <string.h>
         
 using namespace std;
 
@@ -91,7 +92,7 @@ node* node::nodeFromIp(string ip)
 
 node* node::nodeFromMac(string mac)
 {
-    char ip_add[18];
+    char ip_add[20];
 
     string cmd = "arp -n -i ";
     cmd.append(WLAN);
@@ -99,16 +100,13 @@ node* node::nodeFromMac(string mac)
     cmd.append(mac);
     cmd.append("|awk '{print $1}'");
 
-    //   cout<<cmd.c_str()<<endl;
-
     FILE *fp = popen(cmd.c_str(),"r");
     if(fp==NULL)
     {
         return 0;
     }
 
-//     mac_add=(char*)malloc(16*sizeof(char) );
-    if(fgets(ip_add,18,fp)==NULL)
+    if(fgets(ip_add,20,fp)==NULL)
     {
         pclose(fp);
         return 0;
@@ -116,10 +114,18 @@ node* node::nodeFromMac(string mac)
 
     pclose(fp);
 
-    char ips[18];
-    sprintf(ips,"%s",ip_add);
-    string ip=string(ips);
+    string ip;
+    ip.reserve(16);
 
+    int size=strlen(ip_add);
+    for(int i=0;i<size;i++)
+    {
+        if( isdigit(ip_add[i]) || ip_add[i]=='.' )
+        {
+            ip.append(ip_add+i,1);
+        }
+    }
+
+	cout<<"NNN "<<ip<<endl;
     return new node(mac,ip);
-
 }
