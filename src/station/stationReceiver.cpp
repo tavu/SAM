@@ -40,10 +40,13 @@ int stationReceiver::run()
                 nMap()->unlock();
                 log<<"Received ack from null node";
             }
-            n->setAckSnr(message.m.signal - message.m.noise);
-            nMap()->unlock();
-            
-            
+	    else
+	    {
+             	int snr=message.m.signal - message.m.noise;
+            	log<<"ACK SNR:"<<snr<<std::endl;
+            	n->setAckSnr(message.m.signal - message.m.noise);
+            	nMap()->unlock();
+            }
         }
     }
     return 0;
