@@ -1,6 +1,6 @@
 #!/bin/bash
 
-log=bitrates.log
+log=log
 wlan=ah
 location=$1
 currentTime=$(date)
