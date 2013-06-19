@@ -19,10 +19,10 @@ iw phy $phy interface add $wlan type managed
 echo ""
 
 
-#echo seting interface up
+echo seting interface up
 ifconfig $wlan up
-#ifconfig $wlan $ip netmask 255.0.0.0
-#route add default gw 10.0.0.1
+ifconfig $wlan netmask 255.0.0.0
+route add default gw 10.0.0.1
 echo ""
 
 echo setting channel to $channel
@@ -34,8 +34,8 @@ echo join the club
 iwconfig $wlan essid $name
 
 
-#echo gettin ip using dhcp
-dhclient $wlan
+echo Getting ip using dhcp
+dhclient $wlan &
 
 
 
