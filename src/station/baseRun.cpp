@@ -3,7 +3,7 @@
 #include"nodeMap.h"
 #include "noise.h"
 #include"socketC.h"
-// #include"timeout.h"
+#include"timeoutCheck.h"
 #include <signal.h>
 #include <cstdlib>
 #include <unistd.h>
@@ -11,7 +11,7 @@
 sender *Send;
 stationReceiver *Rec;
 socketC *Soc;
-// timeoutChecker *Chk;
+timeoutCheck *Chk;
 
 void leave(int sig);
 
@@ -24,17 +24,18 @@ int main()
     Noise::init();
     Soc =new socketC();
     Send =new sender();
-     Rec =new stationReceiver();
-//     Chk = new timeoutChecker(Rec);
+    Rec =new stationReceiver();
+    Chk = new timeoutCheck();
+    Chk->setSocket(Soc);
 
     Soc->init();
 
     Send->setSocket(Soc);
-     Rec->setSocket(Soc);
+    Rec->setSocket(Soc);
 
-     Rec->start();
-//     Chk->start();
-    Send->start();
+    Rec->start();
+    Chk->start();
+    Send->start();    
     Send->join();
 //     Rec->join(); 
 }
@@ -48,6 +49,6 @@ void leave(int sig)
     delete Send;
     nodeMap::clear();
     delete Soc;
-//     delete Chk;
+    delete Chk;
     exit (0);
 }

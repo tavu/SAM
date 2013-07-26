@@ -11,10 +11,14 @@ using namespace std;
 
 int node::msgCount()
 {
-    int i=_msgCount;
-    _msgCount=0;
-    return i;
+    return _msgCount;    
 }
+
+void node::setMsgCount(int i)
+{
+    _msgCount=i;
+}
+
 
 void node::msgCountIncr()
 {
@@ -125,7 +129,5 @@ node* node::nodeFromMac(string mac)
             ip.append(ip_add+i,1);
         }
     }
-
-	cout<<"NNN "<<ip<<endl;
     return new node(mac,ip);
 }

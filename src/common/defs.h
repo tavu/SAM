@@ -13,5 +13,5 @@
 #define TX_MIN 5
 #define TX_MAX 20
 #define TX_DEF TX_MAX
-
+#define HELLO_TIME 10
 #endif

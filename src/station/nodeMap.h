@@ -92,11 +92,7 @@ class nodeMap
             _nmap=new nodeMap();
         }
         
-        void delete_node(node* n)
-	{
-	  ipMap.erase(n->ip());
-	  macMap.erase(n->mac());
-	}
+        void delete_node(node* n);	
 	 
         static void clear()
         {

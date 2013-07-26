@@ -57,10 +57,10 @@ int Noise::getNoiseFromSystem()
 }
 
 int Noise::run()
-{
-    std::list<node> nodeList;
+{    
     while(1)
     {
+        std::list<node*> nodeList;
         _noise=getNoiseFromSystem();        	
 	if(_noise == 0)
 	{
@@ -74,14 +74,15 @@ int Noise::run()
             node *n=nMap()->nodeFromIt(i);
             if(n->needSend(_noise) )
             {
-                nodeList.push_back(*n);
+                nodeList.push_back(n);
             }
+            
         }
         nMap()->unlock();
      
-        for (list<node>::iterator it=nodeList.begin(); it != nodeList.end(); ++it)
+        for (list<node*>::iterator it=nodeList.begin(); it != nodeList.end(); ++it)
         {
-            soc->sendSignalMessage(it->ip(),it->signal(),_noise);
+            soc->sendSignalMessage( (*it)->ip(), (*it)->signal(),_noise);
         }
 
         sleep(TIME);

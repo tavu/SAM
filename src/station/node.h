@@ -43,7 +43,8 @@ class node
 
         bool needSend(int noise);
         
-        int msgCount();        
+        int msgCount();  
+        void setMsgCount(int i);
         void msgCountIncr(); 
 
         static node* nodeFromMac(std::string mac);

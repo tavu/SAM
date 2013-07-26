@@ -28,7 +28,6 @@ int stationReceiver::run()
 
         if(message.m.type==HELLOW )
         {
-            //TODO Tha ginei to hello message?
             continue;
         }
         else if(message.m.type==SIG_ACK)

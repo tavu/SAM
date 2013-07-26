@@ -40,7 +40,7 @@ int nodeReceiver::run()
 
         if(message.m.type==HELLOW )
         {
-            //TODO
+            soc->sendHellow(message.ip);
             continue;
         }
         else if(message.m.type==SIGNAL_M)
