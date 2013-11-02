@@ -4,50 +4,42 @@
 
 #define LOG_F "receiver.log"
 
-
-stationReceiver::stationReceiver():log(LOG_F)
-{
+/*
+ * implementation of stationReceiver class
+ */
+stationReceiver::stationReceiver() :
+		log(LOG_F) {
 }
 
+int stationReceiver::run() {
+	log << "Starting" << std::endl;
 
-int stationReceiver::run()
-{
-    log<<"Starting"<<std::endl;
+	if (soc->bindSocket() != 0) {
+		log << "Could not bind socket" << std::endl;
+		return 0;
+	}
 
-    if(soc->bindSocket()!=0)
-    {
-        log<<"could not bind socket"<<std::endl;
-        return 0;
-    }
+	while (1) {
+		struct mechMes message = soc->received();
 
-    while(1)
-    {
-        struct mechMes message=soc->received();
+		log << "[RECEIVED] " << message.ip << std::endl;
 
-        log<<"[RECEIVED] "<<message.ip<<std::endl;
-
-        if(message.m.type==HELLOW )
-        {
-            continue;
-        }
-        else if(message.m.type==SIG_ACK)
-        {
-            nMap()->lock();
-            node *n=nMap()->nodeFromIp(message.ip);
-            if(n==0)
-            {
-                nMap()->unlock();
-                log<<"Received ack from null node";
-            }
-	    else
-	    {
-             	int snr=message.m.signal - message.m.noise;
-            	log<<"ACK SNR:"<<snr<<std::endl;
-            	n->setAckSnr(message.m.signal - message.m.noise);
-            	nMap()->unlock();
-            }
-        }
-    }
-    return 0;
+		if (message.m.type == HELLO) {
+			continue;
+		} else if (message.m.type == SIG_ACK) {
+			nMap()->lock();
+			Node *n = nMap()->nodeFromIp(message.ip);
+			if (n == 0) {
+				nMap()->unlock();
+				log << "Received ACK from null node";
+			} else {
+				int snr = message.m.signal - message.m.noise;
+				log << "ACK SNR:" << snr << std::endl;
+				n->setAckSnr(message.m.signal - message.m.noise);
+				nMap()->unlock();
+			}
+		}
+	}
+	return 0;
 }
 

@@ -3,7 +3,7 @@
 using namespace std;
 
 
-node* nodeMap::addNode(node* n)
+Node* NodeMap::addNode(Node* n)
 {
     Key macK(n->mac());
     Key ipK(n->ip());
@@ -14,7 +14,7 @@ node* nodeMap::addNode(node* n)
     return n;
 }
 
-node* nodeMap::nodeFromIp(string ip)
+Node* NodeMap::nodeFromIp(string ip)
 {
     Key k(ip);
     nodeIter it=ipMap.find(k);
@@ -26,7 +26,7 @@ node* nodeMap::nodeFromIp(string ip)
     return it->second;
 }
 
-node* nodeMap::nodeFromMac(string mac)
+Node* NodeMap::nodeFromMac(string mac)
 {
     Key k(mac);
     nodeIter it=macMap.find(k);
@@ -38,13 +38,13 @@ node* nodeMap::nodeFromMac(string mac)
     return it->second;
 }
 
-nodeMap* nMap()
+NodeMap* nMap()
 {
-    return nodeMap::_nmap;
+    return NodeMap::_nmap;
 }
 
 
-void nodeMap::delete_node(node* n)
+void NodeMap::delete_node(Node* n)
 {
     Key macK(n->mac());
     Key ipK(n->ip());
@@ -53,4 +53,4 @@ void nodeMap::delete_node(node* n)
     delete n;
 }
 
-nodeMap* nodeMap::_nmap=0;
+NodeMap* NodeMap::_nmap=0;

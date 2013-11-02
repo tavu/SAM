@@ -1,7 +1,11 @@
-#include"thread.h"
-void* Thread::thr_run(void *r)
-{
+/*
+ * Implemetation of class Thread
+ */
 
-    int ret=( (Thread *)r)->run();
-    pthread_exit(0);
+#include"thread.h"
+
+void* Thread::thr_run(void *r) {
+
+	int ret = ((Thread *) r)->run();
+	pthread_exit(0);
 }

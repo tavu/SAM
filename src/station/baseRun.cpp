@@ -1,9 +1,14 @@
+/*
+ * Main function for the Base station
+ */
+
 #include"stationReceiver.h"
 #include"sender.h"
 #include"nodeMap.h"
 #include "noise.h"
 #include"socketC.h"
 #include"timeoutCheck.h"
+#include"../common/optionsLoader.h"
 #include <signal.h>
 #include <cstdlib>
 #include <unistd.h>
@@ -15,40 +20,39 @@ timeoutCheck *Chk;
 
 void leave(int sig);
 
-int main()
-{
-    (void) signal(SIGINT,leave);
-    (void) signal(SIGTERM,leave);
+int main() {
+	(void) signal(SIGINT, leave);
+	(void) signal(SIGTERM, leave);
 
-    nodeMap::init();
-    Noise::init();
-    Soc =new socketC();
-    Send =new sender();
-    Rec =new stationReceiver();
-    Chk = new timeoutCheck();
-    Chk->setSocket(Soc);
+	optionsLoader::init();
+	NodeMap::init();
+	Noise::init();
 
-    Soc->init();
+	Soc = new socketC();
+	Send = new sender();
+	Rec = new stationReceiver();
+	Chk = new timeoutCheck();
+	Chk->setSocket(Soc);
 
-    Send->setSocket(Soc);
-    Rec->setSocket(Soc);
+	Soc->init();
 
-    Rec->start();
-    Chk->start();
-    Send->start();    
-    Send->join();
-//     Rec->join(); 
+	Send->setSocket(Soc);
+	Rec->setSocket(Soc);
+
+	Rec->start();
+	Chk->start();
+	Send->start();
+	Send->join();
 }
 
-void leave(int sig)
-{
-    Rec->cancel();
-    Send->cancel();
+void leave(int sig) {
+	Rec->cancel();
+	Send->cancel();
 
-    delete Rec;
-    delete Send;
-    nodeMap::clear();
-    delete Soc;
-    delete Chk;
-    exit (0);
+	delete Rec;
+	delete Send;
+	NodeMap::clear();
+	delete Soc;
+	delete Chk;
+	exit(0);
 }

@@ -1,7 +1,7 @@
 #include"node.h"
 #include <cmath>
 #include<stdlib.h>
-
+#include "../common/optionsLoader.h"
 #include"defs.h"
 #include"noise.h"
 #include <stdio.h>
@@ -9,43 +9,41 @@
         
 using namespace std;
 
-int node::msgCount()
+
+int Node::msgCount()
 {
     return _msgCount;    
 }
 
-void node::setMsgCount(int i)
+void Node::setMsgCount(int i)
 {
     _msgCount=i;
 }
 
 
-void node::msgCountIncr()
+void Node::msgCountIncr()
 {
     _msgCount++;
 }
 
-void node::addSignal(int s)
+void Node::addSignal(int s)
 {
     _signal=s;
 }
 
 /*
-void node::ackReceived(int ackSnr)
-{
-    this.ackSnr=ackSnr;
-}
-*/
-bool node::needSend(int noise)
+ * Method that checks if a certain node has to change its transmission power
+ */
+bool Node::needSend(int noise)
 {      
     int snr=_signal-noise;
     
-    if(_ackSnr>0 && (abs(_ackSnr - snr) < SNR_VARIATION) )
+    if(_ackSnr>0 && (abs(_ackSnr - snr) < optionsLoader::getInstance()->getSnRdeviaton()) )
     {
         return false;
     }
     
-    if(snr>0 &&  abs(PERF_SNR - snr) > SNR_VARIATION)
+    if(snr>0 &&  abs(optionsLoader::getInstance()->getPrefferedSnr() - snr) > optionsLoader::getInstance()->getSnRdeviaton())
     {
         return true;
     }
@@ -53,17 +51,17 @@ bool node::needSend(int noise)
 
 }
 
-node* node::nodeFromIp(string ip)
+/*Helper method that a new Node*/
+
+Node* Node::nodeFromIp(string ip)
 {
     char mac_add[18];
 
     string cmd = "arp -n -i ";
-    cmd.append(WLAN);
+    cmd.append(optionsLoader::getInstance()->getInterface());
     cmd.append("|grep -i ");
     cmd.append(ip);
     cmd.append("|awk '{print $3}'");
-
-    //   cout<<cmd.c_str()<<endl;
 
     FILE *fp = popen(cmd.c_str(),"r");
     if(fp==NULL)
@@ -71,7 +69,6 @@ node* node::nodeFromIp(string ip)
         return 0;
     }
 
-//     mac_add=(char*)malloc(16*sizeof(char) );
     if(fgets(mac_add,18,fp)==NULL)
     {
         pclose(fp);
@@ -90,16 +87,16 @@ node* node::nodeFromIp(string ip)
     string mac=string(mac_add);
 
 
-    return new node(mac,ip);
+    return new Node(mac,ip);
 
 }
 
-node* node::nodeFromMac(string mac)
+Node* Node::nodeFromMac(string mac)
 {
     char ip_add[20];
 
     string cmd = "arp -n -i ";
-    cmd.append(WLAN);
+    cmd.append(optionsLoader::getInstance()->getInterface());
     cmd.append("|grep -i ");
     cmd.append(mac);
     cmd.append("|awk '{print $1}'");
@@ -129,5 +126,5 @@ node* node::nodeFromMac(string mac)
             ip.append(ip_add+i,1);
         }
     }
-    return new node(mac,ip);
+    return new Node(mac,ip);
 }

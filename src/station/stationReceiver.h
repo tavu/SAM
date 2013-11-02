@@ -4,6 +4,11 @@
 #include <fstream>
 #include"thread.h"
 #include<socketC.h>
+
+/* Class stationReceiver
+ * This is the basic class that reads the messages sent by the nodes,
+ * and then, depending on the message flags, acts acordingly.
+ */
 class stationReceiver :public Thread
 {
     public:

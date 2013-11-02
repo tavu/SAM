@@ -6,39 +6,42 @@
 #include <fstream>
 #include "thread.h"
 
+
+/*Class nodeReceiver
+ * This is the core class of every node  connected to the
+ * base station.
+ */
 #define LOG_F "receiver.log"
 #define TX_LOG "tx.log"
-#define DB(STRING) cout<<#STRING<<endl;
 
-class nodeReceiver :public Thread
-{
-    public:
-        nodeReceiver();
 
-        virtual ~nodeReceiver()
-        {
-            log.close();
-        };
+class nodeReceiver : public Thread {
+public:
+	nodeReceiver();
 
-        int setPower(int signal , int noise);
+	virtual ~nodeReceiver() {
+		log.close();
+	}
+	;
 
-        void setSocket(socketC *s)
-        {
-            soc=s;
-        }
+	int setPower(int signal, int noise);
 
-        int run();
+	void setSocket(socketC *s) {
+		soc = s;
+	}
 
-    protected:
+	int run();
 
-        int setAbsPower(int tx_new);
-        std::ofstream log;
-        socketC *soc;
-        
-    private:
+protected:
 
-        std::ofstream txLog;
-        int curr_tx;
+	int setAbsPower(int tx_new);
+	std::ofstream log;
+	socketC *soc;
+
+private:
+
+	std::ofstream txLog;
+	int curr_tx;
 };
 
 #endif

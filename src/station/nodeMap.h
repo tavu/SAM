@@ -7,8 +7,10 @@
 #include<pthread.h>
 #include <string.h>
 
-
-class nodeMap
+/*Class NodeMap
+ * This class contains a list with all the nodes connected to the base station.
+ */
+class NodeMap
 {
     private:
         class Key 
@@ -39,23 +41,23 @@ class nodeMap
         };
         
     public:
-        friend nodeMap* nMap();
+        friend NodeMap* nMap();
 
-        nodeMap()
+        NodeMap()
         {
             pthread_mutex_init(&mutex, NULL);
         }
 
-        ~nodeMap()
+        ~NodeMap()
         {
             pthread_mutex_destroy(&mutex);
         }
         
-        typedef std::map<Key,node*>::iterator nodeIter;
+        typedef std::map<Key,Node*>::iterator nodeIter;
 
-        node* addNode(node* n);
-        node* nodeFromIp(std::string ip);
-        node* nodeFromMac(std::string mac);
+        Node* addNode(Node* n);
+        Node* nodeFromIp(std::string ip);
+        Node* nodeFromMac(std::string mac);
 
         int size()
         {
@@ -72,7 +74,7 @@ class nodeMap
             return ipMap.end();
         }
 
-        node* nodeFromIt(nodeIter &it)
+        Node* nodeFromIt(nodeIter &it)
         {
             return it->second;
         }
@@ -89,10 +91,10 @@ class nodeMap
 
         static void init()
         {
-            _nmap=new nodeMap();
+            _nmap=new NodeMap();
         }
         
-        void delete_node(node* n);	
+        void delete_node(Node* n);	
 	 
         static void clear()
         {
@@ -102,12 +104,12 @@ class nodeMap
         
     private:
         pthread_mutex_t mutex;
-        std::map<nodeMap::Key,node*> ipMap;
-        std::map<nodeMap::Key,node*> macMap;
+        std::map<NodeMap::Key,Node*> ipMap;
+        std::map<NodeMap::Key,Node*> macMap;
 
-        static nodeMap* _nmap;                
+        static NodeMap* _nmap;                
 };
 
-nodeMap* nMap();
+NodeMap* nMap();
 
 #endif

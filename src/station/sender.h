@@ -7,6 +7,11 @@
 #include <thread.h>
 #include<string>
 
+/*Class Sender
+ * This class grabs the received packets using the  libpcap library
+ * Then it checks if the packet was received from an already known
+ * node or a new one. Then it checks for power adjusting.
+ */
 class sender :public Thread
 {
     public:
@@ -25,13 +30,11 @@ class sender :public Thread
 
     private:
         static int getSignal(std::string mac);
-//         static int getNoise();
-        
         std::ifstream input;
         std::ofstream log;
         socketC *soc;
         
-        char *dev;
+        const char *dev;
 };
 
 #endif

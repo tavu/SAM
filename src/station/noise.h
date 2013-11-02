@@ -3,6 +3,11 @@
 
 #include"socketC.h"
 #include"thread.h"
+
+/*Class Noise
+ * This class works in the background. Its goal is to
+ * get the noise level read by the adapter via shell commands
+ */
 class Noise :public Thread
 {
     public:

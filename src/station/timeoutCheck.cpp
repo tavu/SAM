@@ -1,10 +1,17 @@
 #include"timeoutCheck.h"
 #include"nodeMap.h"
+#include "../common/optionsLoader.h"
 #include <list>
 #include<defs.h>
 #include<string.h>
 #include"node.h"
 using namespace std;
+
+
+/*
+ * Implementation of timeoutCheck class.
+ */
+
 
 timeoutCheck::timeoutCheck()
 {
@@ -15,15 +22,15 @@ int timeoutCheck::run()
 {
     while(1)
     {
-        sleep(HELLO_TIME);
+        sleep(optionsLoader::getInstance()->getHelloMsgInterval());
         
         std::list<std::string> helloList;
-        std::list<node*> rmList;
+        std::list<Node*> rmList;
         
         nMap()->lock();    
-        for(nodeMap::nodeIter i=nMap()->ipBegin();i!=nMap()->ipEnd();i++)
+        for(NodeMap::nodeIter i=nMap()->ipBegin();i!=nMap()->ipEnd();i++)
         {
-            node *n=nMap()->nodeFromIt(i);
+            Node *n=nMap()->nodeFromIt(i);
             int msgCount=n->msgCount();
             if(msgCount==-1)
             {
@@ -40,7 +47,7 @@ int timeoutCheck::run()
             }
         }
         
-        for (std::list<node*>::iterator it=rmList.begin(); it != rmList.end(); ++it)
+        for (std::list<Node*>::iterator it=rmList.begin(); it != rmList.end(); ++it)
         {
             nMap()->delete_node(*it);
         }
@@ -49,7 +56,7 @@ int timeoutCheck::run()
         
          for (std::list<string>::iterator it=helloList.begin(); it != helloList.end(); ++it)
          {
-             soc->sendHellow(*it);
+             soc->sendHello(*it);
          }        
     }
     return 0;
